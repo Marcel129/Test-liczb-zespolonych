@@ -8,14 +8,17 @@
  * Zwraca:
  *    Sume dwoch skladnikow przekazanych jako parametry.
  */
-void CzytajOdp(LZespolona *Odpowiedz)
+istream &operator>>(istream &strWej, LZespolona &wyr)
 {
   char kosz;
-  cin >> kosz >> Odpowiedz->re >> Odpowiedz->im >> kosz >> kosz;
+  cin >> kosz >> wyr.re >> wyr.im >> kosz >> kosz;
+  return strWej;
 }
-void Wyswietl(LZespolona Odpowiedz)
+
+ostream &operator<<(ostream &strWyj, LZespolona &wyr)
 {
-  cout << "(" << Odpowiedz.re << showpos << Odpowiedz.im << noshowpos << "i)" << endl;
+  cout << '(' << wyr.re << showpos << wyr.im << noshowpos << "i)";
+  return strWyj;
 }
 
 LZespolona operator+(LZespolona Skl1, LZespolona Skl2)
@@ -45,18 +48,34 @@ LZespolona operator*(LZespolona Skl1, LZespolona Skl2)
   return Wynik;
 }
 
-LZespolona operator/(LZespolona Skl1, LZespolona Skl2)
+LZespolona operator/(LZespolona Skl1, LZespolona Skl2) //dzielenie liczby zespolonej przez liczbe zepolona
 {
   LZespolona Wynik, Iloczyn;
-  double modulKwadrat;
-  if (CzyRoznaOdZera(Skl2) == 0)
+  double modulKwadrat;           //zmienna pomocnicza do obliczenia modulu
+  if (CzyRoznaOdZera(Skl2) == 0) //sprawdz, czy druga liczba nie jest zerem
+  //pierwszy w kolejności jest warunek na rownosc z zerem, poniewaz w przeciwnym wypadku kompilator zwraca ostrzezenie
   {
-    cerr << "Bledne dzialanie, dzielenie przez 0" << endl;
+    cerr << "Bledne dzialanie, dzielenie przez 0" << endl; //jesli jest zerem, wyswietl komunikat
   }
-  Iloczyn = Skl1 * sprzezenie(Skl2);
-  modulKwadrat = pow(modul(Skl1), 2);
-  Wynik.re = Iloczyn.re / modulKwadrat;
+  Iloczyn = Skl1 * sprzezenie(Skl2);    //jesli nie, oblicz jej sprzezenie i pomnoz przez nie pierwsza liczbe
+  modulKwadrat = pow(modul(Skl2), 2);   //oblicz kwadrat modulu drugiej liczby
+  Wynik.re = Iloczyn.re / modulKwadrat; //podstaw obliczone wartosci do wyniku
   Wynik.im = Iloczyn.im / modulKwadrat;
+
+  return Wynik;
+}
+
+LZespolona operator/(LZespolona Skl1, float Skl2) //dzielenie liczby zespolonej przez liczb rzeczywista
+{
+  LZespolona Wynik;
+
+  if (Skl2 == 0) //sprawdz, czy druga liczba nie jest zerem
+  //pierwszy w kolejności jest warunek na rownosc z zerem, poniewaz w przeciwnym wypadku kompilator zwraca ostrzezenie
+  {
+    cerr << "Bledne dzialanie, dzielenie przez 0" << endl; //jesli jest zerem, wyswietl komunikat
+  }
+  Wynik.re = Skl1.re / Skl2; //podstaw obliczone wartosci do wyniku
+  Wynik.im = Skl1.im / Skl2;
 
   return Wynik;
 }

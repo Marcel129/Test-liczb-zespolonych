@@ -30,8 +30,7 @@ struct WyrazenieZesp {
  */
 
 
-void Wyswietl(WyrazenieZesp  WyrZ);
-LZespolona utworz(WyrazenieZesp);
+ostream &operator <<(ostream &strWyj, WyrazenieZesp &WyrZ); //przeciążenie operatora << dla wyrażenia zespolonego
 LZespolona Oblicz(WyrazenieZesp  WyrZ);
 
 bool porownaj(WyrazenieZesp Dzialanie, LZespolona odp);

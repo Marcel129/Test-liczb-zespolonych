@@ -1,8 +1,8 @@
 #include "WyrazenieZesp.hh"
 
-void Wyswietl(WyrazenieZesp WyrZ)
+ostream &operator <<(ostream &strWyj, WyrazenieZesp &WyrZ)
 {
-    cout << "(" << WyrZ.Arg1.re << showpos << WyrZ.Arg1.im << noshowpos << "i)";
+    cout << WyrZ.Arg1;
     switch (WyrZ.Op)
     {
     case Op_Dodaj:
@@ -18,7 +18,8 @@ void Wyswietl(WyrazenieZesp WyrZ)
         cout << '/';
         break;
     }
-    cout << "(" << WyrZ.Arg2.re << showpos << WyrZ.Arg2.im << noshowpos << "i)" << endl;
+    cout<< WyrZ.Arg2 << endl;
+    return strWyj;
 }
 
 LZespolona Oblicz(WyrazenieZesp Wyr)

@@ -30,26 +30,24 @@ int main(int argc, char **argv)
 
   WyrazenieZesp WyrZ_PytanieTestowe;
   LZespolona OdpowiedzUzytkownika;
-  Stat Odpowiedzi, &Odp = Odpowiedzi;
+  Stat Odp;
 
   wyzeruj_statystyki(Odp);
 
   while (PobierzNastpnePytanie(&BazaT, &WyrZ_PytanieTestowe))
   {
-    Wyswietl(WyrZ_PytanieTestowe);
-    CzytajOdp(&OdpowiedzUzytkownika);
-    if (porownaj(WyrZ_PytanieTestowe, OdpowiedzUzytkownika))//jeśli odpowiedź jest poprawna
+    cout << "Podaj wartosc wyrazenia:" << WyrZ_PytanieTestowe << "Twoja odpowiedz to ";
+    cin >> OdpowiedzUzytkownika;
+    if (porownaj(WyrZ_PytanieTestowe, OdpowiedzUzytkownika)) //jeśli odpowiedź jest poprawna
     {
-      cout << "Poprawna odpowiedz, jeeej!!!" << endl;//wyświetl komunikat
-      licz_punkt(Odp);//dolicz punkt
+      cout << "Poprawna odpowiedz, jeeej!!!" << endl; //wyświetl komunikat
+      licz_punkt(Odp);                                //dolicz punkt
     }
     else
-      cout << "Zla odpowiedz, meehhhhhh......" << endl;//jeśli nie, to wyświetl komunikat
-    licz_pytanie(Odp);//dolicz pytanie do puli
+      cout << "No chyba nie" << endl; //jeśli nie, to wyświetl komunikat
+    licz_pytanie(Odp);                //dolicz pytanie do puli
   }
-  cout << "Twoje wyniki to: " << Odp.l_pop_odp << " poprawnych odpowiedzi, podczas gdy liczba pytan wynosiła " << Odp.l_pytan << endl;
 
-  cout << endl;
-  cout << " Koniec testu" << endl;
-  cout << endl;
+  wyswietl_statystyki(Odp);
+  cout << endl<< " Koniec testu" << endl<< endl;
 }
