@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Statystyka.hh"
 #include "BazaTestu.hh"
+#define ILOSCPROB 3
 
 using namespace std;
 
@@ -36,18 +37,33 @@ int main(int argc, char **argv)
 
   while (PobierzNastpnePytanie(&BazaT, &WyrZ_PytanieTestowe))
   {
-    cout << "Podaj wartosc wyrazenia:" << WyrZ_PytanieTestowe << "Twoja odpowiedz to ";
-    cin >> OdpowiedzUzytkownika;
-    if (porownaj(WyrZ_PytanieTestowe, OdpowiedzUzytkownika)) //jeśli odpowiedź jest poprawna
+    cout << "Podaj wartosc wyrazenia:" << WyrZ_PytanieTestowe;
+    for (int i = 0; i < ILOSCPROB; i++)
     {
-      cout << "Poprawna odpowiedz, jeeej!!!" << endl; //wyświetl komunikat
-      licz_punkt(Odp);                                //dolicz punkt
+      cout << "Twoja odpowiedz to ";
+      if (cin >> OdpowiedzUzytkownika) //jesli poprawnie wczytano odpowiedz, przejdz do jej analizy
+      {
+        i=ILOSCPROB;//ustawiamy warunek petli sprawdzajacej poprawnosc zapisu liczby na false, aby przejsc do kolejnego pytania
+        if (porownaj(WyrZ_PytanieTestowe, OdpowiedzUzytkownika)) //jeśli odpowiedź jest poprawna
+        {
+          cout << "Poprawna odpowiedz" << endl; //wyświetl komunikat
+          licz_punkt(Odp);                                //dolicz punkt
+        }
+        else
+          cout << "Bledna odpowiedz" << endl; //jeśli nie, to wyświetl komunikat
+      }
+      else //jesli odpowiedz byla zle wprowadzona wczysc bufor i zapytaj ponownie
+      {
+        cout << "Blad zapisu liczby zespolonej, sprobuj jeszcze raz" << endl;
+        cin.clear();
+        cin.ignore(10000, '\n');
+      }
     }
-    else
-      cout << "No chyba nie" << endl; //jeśli nie, to wyświetl komunikat
-    licz_pytanie(Odp);                //dolicz pytanie do puli
+    licz_pytanie(Odp); //dolicz pytanie do puli
   }
 
   wyswietl_statystyki(Odp);
-  cout << endl<< " Koniec testu" << endl<< endl;
+  cout << endl
+       << " Koniec testu" << endl
+       << endl;
 }

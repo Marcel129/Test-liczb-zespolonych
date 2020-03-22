@@ -10,8 +10,70 @@
  */
 istream &operator>>(istream &strWej, LZespolona &wyr)
 {
-  char kosz;
-  cin >> kosz >> wyr.re >> wyr.im >> kosz >> kosz;
+  {
+    char kosz;
+    cin >> kosz;
+    if (kosz == '(')
+    {
+      cin >> wyr.re;
+      if (cin.fail() == false)
+      {
+        cin >> wyr.im;
+        if (cin.fail() == false)
+        {
+          cin >> kosz;
+          if (kosz == 'i')
+          {
+            cin >> kosz;
+            if (kosz == ')')
+            {
+              return strWej;
+            }
+          }
+        }
+        else //przypadek, kiedy wczyta jedna liczbe, a nastepny jest znak
+        {
+          cin.clear();
+          cin >> kosz;
+          if (cin.fail() == false)
+          {
+            if (kosz == 'i') //kiedy po wczytaniu liczby wystepuje i, czyli jest sama czesc urojona
+            {
+              wyr.im = wyr.re;
+              wyr.re = 0;
+              cin >> kosz;
+              if (kosz == ')')
+              {
+                return strWej;
+              }
+            }
+            else if (kosz == ')') //kiedy po wczytaniu liczby nie wystepuje i, czyli jest sama czesc rzeczywista
+            {
+              wyr.im = 0;
+              return strWej;
+            }
+          }
+        }
+      }
+      else //przypadek, kiedy liczba jest samo i
+      {
+        cin.clear();
+        cin >> kosz;
+        if (kosz == 'i')
+        {
+          wyr.im = 1;
+          wyr.re = 0;
+          cin >> kosz;
+          if (kosz == ')')
+          {
+            return strWej;
+          }
+        }
+      }
+    }
+  }
+  strWej.setstate(std::ios::failbit);
+
   return strWej;
 }
 
