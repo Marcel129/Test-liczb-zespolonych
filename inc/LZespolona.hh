@@ -31,7 +31,7 @@ LZespolona operator*(LZespolona Skl1, LZespolona Skl2);
 LZespolona operator/(LZespolona Skl1, LZespolona Skl2);
 LZespolona operator/(LZespolona Skl1, float Skl2);
 
-bool CzyRoznaOdZera(LZespolona LZ); //funkcja sprawdzajaca, czy modul drugiej liczby zespolonej nie jest rowny 0
+bool operator ==(LZespolona LZ,int zero); //funkcja sprawdzajaca, czy modul drugiej liczby zespolonej nie jest rowny 0
 
 LZespolona sprzezenie(LZespolona); //funkcja obliczjaca sprzezenie liczby zes
 double modul(LZespolona LZ); //funkcja obliczjaca modul liczby zes

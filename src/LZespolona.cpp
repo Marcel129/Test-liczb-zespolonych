@@ -12,19 +12,19 @@ istream &operator>>(istream &strWej, LZespolona &wyr)
 {
   {
     char kosz;
-    cin >> kosz;
+    strWej >> kosz;
     if (kosz == '(')
     {
-      cin >> wyr.re;
-      if (cin.fail() == false)
+      strWej >> wyr.re;
+      if (strWej.fail() == false)
       {
-        cin >> wyr.im;
-        if (cin.fail() == false)
+        strWej >> wyr.im;
+        if (strWej.fail() == false)
         {
-          cin >> kosz;
+          strWej >> kosz;
           if (kosz == 'i')
           {
-            cin >> kosz;
+            strWej >> kosz;
             if (kosz == ')')
             {
               return strWej;
@@ -33,15 +33,15 @@ istream &operator>>(istream &strWej, LZespolona &wyr)
         }
         else //przypadek, kiedy wczyta jedna liczbe, a nastepny jest znak
         {
-          cin.clear();
-          cin >> kosz;
-          if (cin.fail() == false)
+          strWej.clear();
+          strWej >> kosz;
+          if (strWej.fail() == false)
           {
             if (kosz == 'i') //kiedy po wczytaniu liczby wystepuje i, czyli jest sama czesc urojona
             {
               wyr.im = wyr.re;
               wyr.re = 0;
-              cin >> kosz;
+              strWej >> kosz;
               if (kosz == ')')
               {
                 return strWej;
@@ -57,13 +57,13 @@ istream &operator>>(istream &strWej, LZespolona &wyr)
       }
       else //przypadek, kiedy liczba jest samo i
       {
-        cin.clear();
-        cin >> kosz;
+        strWej.clear();
+        strWej >> kosz;
         if (kosz == 'i')
         {
           wyr.im = 1;
           wyr.re = 0;
-          cin >> kosz;
+          strWej >> kosz;
           if (kosz == ')')
           {
             return strWej;
@@ -114,7 +114,7 @@ LZespolona operator/(LZespolona Skl1, LZespolona Skl2) //dzielenie liczby zespol
 {
   LZespolona Wynik, Iloczyn;
   double modulKwadrat;           //zmienna pomocnicza do obliczenia modulu
-  if (CzyRoznaOdZera(Skl2) == 0) //sprawdz, czy druga liczba nie jest zerem
+  if (!(Skl2 == 0)) //sprawdz, czy druga liczba nie jest zerem
   //pierwszy w kolejności jest warunek na rownosc z zerem, poniewaz w przeciwnym wypadku kompilator zwraca ostrzezenie
   {
     cerr << "Bledne dzialanie, dzielenie przez 0" << endl; //jesli jest zerem, wyswietl komunikat
@@ -142,13 +142,12 @@ LZespolona operator/(LZespolona Skl1, float Skl2) //dzielenie liczby zespolonej 
   return Wynik;
 }
 
-bool CzyRoznaOdZera(LZespolona LZ)
+bool operator ==(LZespolona LZ,int zero)
 {
   float modulLiczby = modul(LZ);
   if (modulLiczby == 0)
-    return false;
-
-  return true;
+    return true;
+  return false;
 }
 
 LZespolona sprzezenie(LZespolona LZ)

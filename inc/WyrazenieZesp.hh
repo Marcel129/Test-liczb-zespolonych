@@ -19,7 +19,7 @@ enum Operator { Op_Dodaj, Op_Odejmij, Op_Mnoz, Op_Dziel };
  */
 struct WyrazenieZesp {
   LZespolona   Arg1;   // Pierwszy argument wyrazenia arytmetycznego
-  Operator     Op;     // Opertor wyrazenia arytmetycznego
+  char     Op;     // Opertor wyrazenia arytmetycznego
   LZespolona   Arg2;   // Drugi argument wyrazenia arytmetycznego
 };
 
@@ -30,7 +30,8 @@ struct WyrazenieZesp {
  */
 
 
-ostream &operator <<(ostream &strWyj, WyrazenieZesp &WyrZ); //przeciążenie operatora << dla wyrażenia zespolonego
+ostream &operator <<(ostream &strWyj, WyrazenieZesp WyrZ); //przeciążenie operatora << dla wyrażenia zespolonego
+istream &operator >>(istream &strWej, WyrazenieZesp &WyrZ);
 LZespolona Oblicz(WyrazenieZesp  WyrZ);
 
 bool porownaj(WyrazenieZesp Dzialanie, LZespolona odp);

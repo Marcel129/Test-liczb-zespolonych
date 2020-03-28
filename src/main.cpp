@@ -1,33 +1,37 @@
 #include <iostream>
+#include <fstream>
 #include "Statystyka.hh"
 #include "BazaTestu.hh"
+#include <cstdio>
 #define ILOSCPROB 3
-
-using namespace std;
+/*
+Zadania dodatkowe:
+Program wczytuje dane z pliku, sprawdza poprawność wprowadzanych wyrażeń. Nazwa pliku musi być podana jako argument wywołania programu
+Program częściowo rozpoznaje skróconą notacje, muszą być podane nawiasy, radzi sobie z pomijaniem zer i jednek przy i
+*/
 
 int main(int argc, char **argv)
 {
-
   if (argc < 2)
   {
-    cout << endl;
-    cout << " Brak opcji okreslajacej rodzaj testu." << endl;
-    cout << " Dopuszczalne nazwy to:  latwy, trudny." << endl;
-    cout << endl;
+    std::cout << endl;
+    std::cout << " Brak opcji okreslajacej rodzaj testu." << endl;
+    std::cout << " Dopuszczalne nazwy to:  latwy, trudny." << endl;
+    std::cout << endl;
     return 1;
   }
+  fstream BazaPlikowa;
+  string tryb = argv[1];
 
-  BazaTestu BazaT = {nullptr, 0, 0};
-
-  if (InicjalizujTest(&BazaT, argv[1]) == false)
+  if (InicjalizujTest(BazaPlikowa, tryb) == false)
   {
-    cerr << " Inicjalizacja testu nie powiodla sie." << endl;
+    cerr << "Inicjalizacja testu nie powiodla sie." << endl;
     return 1;
   }
 
-  cout << endl;
-  cout << " Start testu arytmetyki zespolonej: " << argv[1] << endl;
-  cout << endl;
+  std::cout << endl;
+  std::cout << " Start testu arytmetyki zespolonej. Pytania z pliku: " << argv[1] << endl;
+  std::cout << endl;
 
   WyrazenieZesp WyrZ_PytanieTestowe;
   LZespolona OdpowiedzUzytkownika;
@@ -35,26 +39,27 @@ int main(int argc, char **argv)
 
   wyzeruj_statystyki(Odp);
 
-  while (PobierzNastpnePytanie(&BazaT, &WyrZ_PytanieTestowe))
+  while (PobierzNastpnePytanie(BazaPlikowa, WyrZ_PytanieTestowe))
   {
-    cout << "Podaj wartosc wyrazenia:" << WyrZ_PytanieTestowe;
+    std::cout << "Podaj wartosc wyrazenia:" << WyrZ_PytanieTestowe;
     for (int i = 0; i < ILOSCPROB; i++)
     {
-      cout << "Twoja odpowiedz to ";
-      if (cin >> OdpowiedzUzytkownika) //jesli poprawnie wczytano odpowiedz, przejdz do jej analizy
+      std::cin >> OdpowiedzUzytkownika;
+      std::cout << "Twoja odpowiedz to "<<OdpowiedzUzytkownika<<endl;
+      if (std::cin.fail()==false) //jesli poprawnie wczytano odpowiedz, przejdz do jej analizy
       {
-        i=ILOSCPROB;//ustawiamy warunek petli sprawdzajacej poprawnosc zapisu liczby na false, aby przejsc do kolejnego pytania
+        i = ILOSCPROB;                                           //ustawiamy warunek petli sprawdzajacej poprawnosc zapisu liczby na false, aby przejsc do kolejnego pytania
         if (porownaj(WyrZ_PytanieTestowe, OdpowiedzUzytkownika)) //jeśli odpowiedź jest poprawna
         {
-          cout << "Poprawna odpowiedz" << endl; //wyświetl komunikat
-          licz_punkt(Odp);                                //dolicz punkt
+          std::cout << "Poprawna odpowiedz" << endl; //wyświetl komunikat
+          licz_punkt(Odp);                           //dolicz punkt
         }
         else
-          cout << "Bledna odpowiedz" << endl; //jeśli nie, to wyświetl komunikat
+          std::cout << "Bledna odpowiedz" << endl; //jeśli nie, to wyświetl komunikat
       }
       else //jesli odpowiedz byla zle wprowadzona wczysc bufor i zapytaj ponownie
       {
-        cout << "Blad zapisu liczby zespolonej, sprobuj jeszcze raz" << endl;
+        std::cout << "Blad zapisu liczby zespolonej, sprobuj jeszcze raz" << endl;
         cin.clear();
         cin.ignore(10000, '\n');
       }
@@ -62,8 +67,8 @@ int main(int argc, char **argv)
     licz_pytanie(Odp); //dolicz pytanie do puli
   }
 
-  wyswietl_statystyki(Odp);
-  cout << endl
-       << " Koniec testu" << endl
-       << endl;
+  std::cout << Odp;
+  std::cout << endl
+            << " Koniec testu" << endl
+            << endl;
 }

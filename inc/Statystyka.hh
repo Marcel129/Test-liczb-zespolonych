@@ -11,6 +11,6 @@ struct Stat {
 void licz_punkt(Stat &wyniki);
 void licz_pytanie(Stat &wyniki);
 void wyzeruj_statystyki(Stat &wyniki);
-void wyswietl_statystyki(Stat &wyniki);
+ostream &operator<<(ostream &strWyj,Stat wyniki);
 
 #endif
